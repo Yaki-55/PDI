@@ -5,9 +5,11 @@ import matplotlib.pyplot as plt
 def negativo(img):
     return 255 - img
 
-def transformacion_gamma(img, gamma=1.5):
-    invGamma = 1.0 / gamma
-    return np.array(255 * (img / 255) ** invGamma, dtype='uint8')
+def transformacion_gamma(img, c=2, gamma=2.0):
+    img_normalizada = img / 255
+    img_transformada = c * (img_normalizada ** gamma)
+    img_transformada = np.clip(img_transformada * 255, 0, 255)
+    return np.array(img_transformada, dtype='uint8')
 
 def transformacion_logaritmica(img, c, epsilon=1e-5):
     s = c * np.log(1 + img + epsilon)
@@ -36,7 +38,7 @@ def rebanada_plano_bit(img):
 
 img_list = [cv2.imread('primeraImagen.jpg', 0), 
             cv2.imread('segundaImagen.png', 0), 
-            cv2.imread('cuartaImagen.png', 0)]
+            cv2.imread('terceraImagen.png', 0)]
 
 for i, img in enumerate(img_list):
     img_negativo = negativo(img)
